@@ -8,9 +8,15 @@ class Case:
     Relationships:
     - Many cases belong to one Region (region_id)
     - Many cases reported by one User (reported_by)
+
+    Fields:
+    - symptoms: list of reported symptoms (community user)
+    - possible_disease: suspected disease (community user)
+    - confirmed_disease: verified disease (health worker)
     """
 
-    VALID_STATUSES = ["suspected", "confirmed", "recovered"]
+    VALID_STATUSES = ["pending", "suspected",
+                      "confirmed", "recovered", "deceased"]
 
     def __init__(
         self,
@@ -21,12 +27,13 @@ class Case:
         status: str,
         reported_by: str,
         date_reported: str,
-        disease: str
+        symptoms=None,
+        possible_disease=None,
+        confirmed_disease=None
     ):
         if status not in self.VALID_STATUSES:
             raise ValueError(
-                f"Invalid status. Must be one of {self.VALID_STATUSES}"
-            )
+                f"Invalid status. Must be one of {self.VALID_STATUSES}")
 
         self.id = id
         self.patient_name = patient_name
@@ -35,22 +42,30 @@ class Case:
         self.status = status
         self.reported_by = reported_by
         self.date_reported = date_reported
-        self.disease = disease
+        self.symptoms = symptoms or []
+        self.possible_disease = possible_disease
+        self.confirmed_disease = confirmed_disease
+
+    # ----------------------------
+    # Helper Methods
+    # ----------------------------
 
     def update_status(self, new_status: str):
-        """
-        Update case status.
-        """
+        """Update case status with validation."""
         if new_status not in self.VALID_STATUSES:
             raise ValueError(
-                f"Invalid status. Must be one of {self.VALID_STATUSES}"
-            )
+                f"Invalid status. Must be one of {self.VALID_STATUSES}")
         self.status = new_status
 
+    def confirm_disease(self, disease_name: str):
+        """Health worker confirms suspected disease."""
+        if not disease_name:
+            raise ValueError("Confirmed disease name cannot be empty.")
+        self.confirmed_disease = disease_name
+        self.status = "confirmed"
+
     def to_dict(self) -> dict:
-        """
-        Convert Case object to dictionary.
-        """
+        """Convert Case object to dictionary for JSON storage."""
         return {
             "id": self.id,
             "patient_name": self.patient_name,
@@ -59,14 +74,14 @@ class Case:
             "status": self.status,
             "reported_by": self.reported_by,
             "date_reported": self.date_reported,
-            "disease": self.disease
+            "symptoms": self.symptoms,
+            "possible_disease": self.possible_disease,
+            "confirmed_disease": self.confirmed_disease,
         }
 
     @classmethod
     def from_dict(cls, data: dict):
-        """
-        Create Case object from dictionary.
-        """
+        """Recreate Case object from stored dictionary."""
         return cls(
             id=data["id"],
             patient_name=data["patient_name"],
@@ -75,11 +90,16 @@ class Case:
             status=data["status"],
             reported_by=data["reported_by"],
             date_reported=data["date_reported"],
-            disease=data.get("disease", "Unknown")
+            symptoms=data.get("symptoms", []),
+            possible_disease=data.get("possible_disease"),
+            confirmed_disease=data.get("confirmed_disease"),
         )
 
     def __str__(self):
         return (
             f"Case[{self.id}] - {self.patient_name}, "
-            f"{self.disease}, {self.status} ({self.date_reported})"
+            f"Symptoms: {', '.join(self.symptoms) if self.symptoms else 'None'}, "
+            f"Possible: {self.possible_disease or 'N/A'}, "
+            f"Confirmed: {self.confirmed_disease or 'N/A'}, "
+            f"Status: {self.status} ({self.date_reported})"
         )
