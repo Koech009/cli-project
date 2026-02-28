@@ -1,0 +1,14 @@
+# Ignore Python cache
+__pycache__/
+*.pyc
+
+# Ignore local JSON data if you don’t want runtime changes tracked
+data/*.json
+
+# Ignore OS junk
+.DS_Store
+Thumbs.db
+
+# Ignore virtual environments
+venv/
+.env/
