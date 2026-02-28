@@ -1,0 +1,26 @@
+[
+    {
+        "id": "f75a97bf-2511-46e2-a92a-80a09f5c8920",
+        "name": "ian ",
+        "email": "ian@gmail.com",
+        "password": "343fc99faa622516934b33f3c22a43a94d83fd57eef841a37caa8153029cb099",
+        "role": "community",
+        "region_id": null
+    },
+    {
+        "id": "3860cd0f-9e9e-4592-abf0-ca5e8bbaef9a",
+        "name": "Milkah",
+        "email": "mwangi@gmail.com",
+        "password": "533414e85a53f61a2cda82f6cf53fd0852d59cdbe155540757b36c5c3bae6653",
+        "role": "health_worker",
+        "region_id": "47"
+    },
+    {
+        "id": "7dbafdd1-23a8-4bf4-a858-1d3591dc386e",
+        "name": "Lydia",
+        "email": "lydia@gmail.com",
+        "password": "18b2c1ae2efce4998900820653738a19568f812c2d6e4f613d4fe1237e44c4a4",
+        "role": "admin",
+        "region_id": null
+    }
+]
