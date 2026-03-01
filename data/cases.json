@@ -1,0 +1,58 @@
+[
+    {
+        "id": "80625280-ae9a-4f23-a98d-fbe04d5f4de5",
+        "patient_name": "solomon",
+        "age": 23,
+        "region_id": "47",
+        "reported_by": "3860cd0f-9e9e-4592-abf0-ca5e8bbaef9a",
+        "date_reported": "2026-02-28",
+        "classification_status": "suspected",
+        "patient_status": "under_treatment",
+        "symptoms": [],
+        "possible_disease": null,
+        "confirmed_disease": null
+    },
+    {
+        "id": "9aca271c-90bd-4c29-9c54-c0536e11dc0b",
+        "patient_name": "ian",
+        "age": 22,
+        "region_id": "39",
+        "reported_by": "c4eaa319-bcaa-4f55-afb8-d62beaa3e094",
+        "date_reported": "2026-02-28",
+        "classification_status": "suspected",
+        "patient_status": "under_treatment",
+        "symptoms": [
+            "fever",
+            "mild headeache",
+            "difficulty in breathing"
+        ],
+        "possible_disease": "covid",
+        "confirmed_disease": "Covid 19"
+    },
+    {
+        "id": "d46ac0ab-6d24-4e74-b011-4d2914c14dd6",
+        "patient_name": "george",
+        "age": 33,
+        "region_id": "47",
+        "reported_by": "fd590bf1-a89c-4041-a55b-da2a093ea292",
+        "date_reported": "2026-02-28",
+        "classification_status": "suspected",
+        "patient_status": "under_treatment",
+        "symptoms": [],
+        "possible_disease": null,
+        "confirmed_disease": "Ebola"
+    },
+    {
+        "id": "fc85a46e-f3cb-41ad-b85c-2e7aa4df496e",
+        "patient_name": "cody",
+        "age": 44,
+        "region_id": "01",
+        "reported_by": "a7acb61b-b756-4850-bd69-efcbad2c3c4c",
+        "date_reported": "2026-03-01",
+        "classification_status": "suspected",
+        "patient_status": "recovered",
+        "symptoms": [],
+        "possible_disease": null,
+        "confirmed_disease": "covid19"
+    }
+]
