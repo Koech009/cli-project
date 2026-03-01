@@ -2,13 +2,5 @@
 __pycache__/
 *.pyc
 
-# Ignore local JSON data if you don’t want runtime changes tracked
+# Ignore local JSON data files
 data/*.json
-
-# Ignore OS junk
-.DS_Store
-Thumbs.db
-
-# Ignore virtual environments
-venv/
-.env/
