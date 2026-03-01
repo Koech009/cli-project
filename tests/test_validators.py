@@ -1,4 +1,3 @@
-# tests/test_validators.py
 import pytest
 from utils import validators
 
@@ -66,14 +65,24 @@ def test_validate_role_failure():
         validators.validate_role("invalid_role")
 
 
-def test_validate_status_success():
-    for status in validators.VALID_STATUSES:
-        validators.validate_status(status)  # should not raise
+def test_validate_classification_status_success():
+    for status in ["suspected", "confirmed", "discarded"]:
+        validators.validate_classification_status(status)  # should not raise
 
 
-def test_validate_status_failure():
+def test_validate_classification_status_failure():
     with pytest.raises(ValueError):
-        validators.validate_status("invalid_status")
+        validators.validate_classification_status("invalid_status")
+
+
+def test_validate_patient_status_success():
+    for status in ["under_treatment", "recovered", "deceased"]:
+        validators.validate_patient_status(status)  # should not raise
+
+
+def test_validate_patient_status_failure():
+    with pytest.raises(ValueError):
+        validators.validate_patient_status("invalid_status")
 
 
 def test_validate_region_name_success():
