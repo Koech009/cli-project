@@ -13,10 +13,12 @@ class Case:
     - symptoms: list of reported symptoms (community user)
     - possible_disease: suspected disease (community user)
     - confirmed_disease: verified disease (health worker)
+    - classification_status: outbreak classification (suspected, confirmed, discarded)
+    - patient_status: patient outcome (under_treatment, recovered, deceased)
     """
 
-    VALID_STATUSES = ["pending", "suspected",
-                      "confirmed", "recovered", "deceased"]
+    VALID_CLASSIFICATIONS = ["suspected", "confirmed", "discarded"]
+    VALID_PATIENT_STATUSES = ["under_treatment", "recovered", "deceased"]
 
     def __init__(
         self,
@@ -24,24 +26,31 @@ class Case:
         patient_name: str,
         age: int,
         region_id: str,
-        status: str,
         reported_by: str,
         date_reported: str,
+        classification_status: str = "suspected",
+        patient_status: str = "under_treatment",
         symptoms=None,
         possible_disease=None,
         confirmed_disease=None
     ):
-        if status not in self.VALID_STATUSES:
+        if classification_status not in self.VALID_CLASSIFICATIONS:
             raise ValueError(
-                f"Invalid status. Must be one of {self.VALID_STATUSES}")
+                f"Invalid classification status. Must be one of {self.VALID_CLASSIFICATIONS}"
+            )
+        if patient_status not in self.VALID_PATIENT_STATUSES:
+            raise ValueError(
+                f"Invalid patient status. Must be one of {self.VALID_PATIENT_STATUSES}"
+            )
 
         self.id = id
         self.patient_name = patient_name
         self.age = age
         self.region_id = region_id
-        self.status = status
         self.reported_by = reported_by
         self.date_reported = date_reported
+        self.classification_status = classification_status
+        self.patient_status = patient_status
         self.symptoms = symptoms or []
         self.possible_disease = possible_disease
         self.confirmed_disease = confirmed_disease
@@ -49,20 +58,28 @@ class Case:
     # ----------------------------
     # Helper Methods
     # ----------------------------
-
-    def update_status(self, new_status: str):
-        """Update case status with validation."""
-        if new_status not in self.VALID_STATUSES:
+    def update_classification(self, new_status: str):
+        """Update outbreak classification status."""
+        if new_status not in self.VALID_CLASSIFICATIONS:
             raise ValueError(
-                f"Invalid status. Must be one of {self.VALID_STATUSES}")
-        self.status = new_status
+                f"Invalid classification status. Must be one of {self.VALID_CLASSIFICATIONS}"
+            )
+        self.classification_status = new_status
+
+    def update_patient_status(self, new_status: str):
+        """Update patient outcome status."""
+        if new_status not in self.VALID_PATIENT_STATUSES:
+            raise ValueError(
+                f"Invalid patient status. Must be one of {self.VALID_PATIENT_STATUSES}"
+            )
+        self.patient_status = new_status
 
     def confirm_disease(self, disease_name: str):
         """Health worker confirms suspected disease."""
         if not disease_name:
             raise ValueError("Confirmed disease name cannot be empty.")
         self.confirmed_disease = disease_name
-        self.status = "confirmed"
+        self.classification_status = "confirmed"
 
     def to_dict(self) -> dict:
         """Convert Case object to dictionary for JSON storage."""
@@ -71,9 +88,10 @@ class Case:
             "patient_name": self.patient_name,
             "age": self.age,
             "region_id": self.region_id,
-            "status": self.status,
             "reported_by": self.reported_by,
             "date_reported": self.date_reported,
+            "classification_status": self.classification_status,
+            "patient_status": self.patient_status,
             "symptoms": self.symptoms,
             "possible_disease": self.possible_disease,
             "confirmed_disease": self.confirmed_disease,
@@ -87,9 +105,11 @@ class Case:
             patient_name=data["patient_name"],
             age=data["age"],
             region_id=data["region_id"],
-            status=data["status"],
             reported_by=data["reported_by"],
             date_reported=data["date_reported"],
+            classification_status=data.get(
+                "classification_status", "suspected"),
+            patient_status=data.get("patient_status", "under_treatment"),
             symptoms=data.get("symptoms", []),
             possible_disease=data.get("possible_disease"),
             confirmed_disease=data.get("confirmed_disease"),
@@ -101,5 +121,6 @@ class Case:
             f"Symptoms: {', '.join(self.symptoms) if self.symptoms else 'None'}, "
             f"Possible: {self.possible_disease or 'N/A'}, "
             f"Confirmed: {self.confirmed_disease or 'N/A'}, "
-            f"Status: {self.status} ({self.date_reported})"
+            f"Classification: {self.classification_status}, "
+            f"Patient Status: {self.patient_status} ({self.date_reported})"
         )
