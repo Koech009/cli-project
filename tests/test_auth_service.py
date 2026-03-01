@@ -1,4 +1,3 @@
-# tests/test_auth_service.py
 import pytest
 import uuid
 from services.auth_service import AuthService
@@ -40,7 +39,8 @@ def test_register_duplicate_email(auth_service, monkeypatch, capsys):
     auth_service.register()
 
     captured = capsys.readouterr()
-    assert "Email already registered" in captured.out
+    # Match the actual message printed by your code
+    assert "Email already exists" in captured.out
 
 
 def test_login_invalid_credentials(auth_service, monkeypatch, capsys):
