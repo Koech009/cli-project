@@ -85,8 +85,7 @@ Tests → Unit & integration tests
 
 ---
 
-## 📁 Project Structure
-
+📁 Project Structure
 outbreak_cli/
 ├── main.py
 ├── models/
@@ -123,8 +122,6 @@ outbreak_cli/
 ├── pytest.ini
 ├── README.md
 └── .gitignore
-
----
 
 ## 🗄️ Database Design (DBML Schema)
 
